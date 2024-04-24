@@ -35,7 +35,7 @@ Gọi phương thức receivePacket(Packet packet) của Scheduler để xử l�
 Tóm lại, đoạn mã này thực hiện việc khởi tạo và quản lý các thành phần chính của một core trong hệ thống xử lý cấu trúc lưới, bao gồm định nghĩa các phương thức để chuẩn bị, thực thi và xử lý các gói tin.
 
 ## 4 core.h
-Đoạn mã trong file "core.h" định nghĩa lớp Core, đại diện cho một nhân tố cơ bản trong hệ thống xử lý cấu trúc lưới. Dưới đây là tóm tắt hoạt động của mã:
+Đoạn mã trong file "core.h" định nghĩa lớp Core, đại diện cho một nhân tố cơ bản trong hệ thống xử lý cấu trúc mạng. Dưới đây là tóm tắt hoạt động của mã:
 
 - Định nghĩa lớp Core: Lớp Core được kế thừa từ lớp Component, đảm bảo rằng các đối tượng Core có các phương thức cơ bản như prepare(), run(), và receivePacket(Packet packet).
 - Các constructors: Có nhiều phiên bản constructor cho phép tạo đối tượng Core với các cấu hình khác nhau. Các tham số của các constructors này cho phép xác định các core lân cận, bộ nhớ CSRAM, hướng dẫn neuron, vị trí của core, loại và giá trị reset của neuron.
@@ -44,3 +44,24 @@ Tóm lại, đoạn mã này thực hiện việc khởi tạo và quản lý c�
 - Phương thức receivePacket(Packet packet): Được kế thừa từ lớp Component, phương thức này được gọi khi core nhận được một gói tin.
 - Phương thức to_string(): Trả về một chuỗi mô tả vị trí của core trong lưới.
 - Các thành phần của Core: Scheduler, NeuronBlock, và CoreController là các thành phần chính của một core trong hệ thống xử lý cấu trúc lưới.
+
+## 5 corecontroller.cpp
+Đoạn mã trong tệp "corecontroller.cpp" triển khai các phương thức của lớp CoreController, là một thành phần quan trọng của mỗi nhân tố cơ bản trong hệ thống xử lý cấu trúc mạng. Dưới đây là tóm tắt hoạt động của mã:
+
+- Constructor CoreController: Constructor này khởi tạo một đối tượng CoreController với các tham số như con trỏ đến core cha, router, scheduler, neuron block, vector csram và vector neuron instructions.
+- Phương thức getSpikes(): Phương thức này trả về một chuỗi biểu diễn các điểm nhấn (spikes) hiện tại dưới dạng chuỗi hex.
+- Phương thức run(): Phương thức này thực hiện quá trình xử lý của CoreController. Đầu tiên, nó lấy các điểm nhấn hiện tại từ lập lịch (Scheduler). Sau đó, nó tính toán tích hợp và tiềm năng của mỗi neuron, kiểm tra xem neuron có phát điểm nhấn hay không, và gửi các gói tin tới router nếu có phát điểm nhấn.
+- Phương thức activeConnectionIndices(): Phương thức này trả về các chỉ số của các kết nối hoạt động, nơi có cả điểm nhấn và kết nối.
+- Các biến thành viên: Các biến thành viên của CoreController bao gồm con trỏ tới core cha, router, scheduler, neuron block, vector csram và vector neuron instructions.
+- Quản lý ghi log: Đoạn mã cũng chứa các lệnh ghi log sử dụng thư viện plog để ghi lại quá trình thực thi của CoreController và các thông tin liên quan.
+
+## 6 corecontroller.h
+Tệp "corecontroller.h" định nghĩa lớp CoreController, một thành phần quan trọng của mỗi nhân tố cơ bản trong hệ thống xử lý cấu trúc mạng. Dưới đây là tóm tắt hoạt động của mã:
+
+- Constructor CoreController: Constructor này khởi tạo một đối tượng CoreController với các tham số như con trỏ đến core cha, router, scheduler, neuron block, vector csram và vector neuron instructions.
+- Phương thức setAxonType(): Phương thức này được sử dụng để đặt loại của một axon cụ thể trong neuron controller.
+- Phương thức run(): Phương thức này thực hiện quá trình xử lý của CoreController, bao gồm tính toán tích hợp và tiềm năng của mỗi neuron, kiểm tra xem neuron có phát điểm nhấn hay không, và gửi các gói tin tới router nếu có phát điểm nhấn.
+- Phương thức getSpikes(): Phương thức này trả về một chuỗi biểu diễn các điểm nhấn (spikes) hiện tại dưới dạng chuỗi.
+- Các biến thành viên: Các biến thành viên của CoreController bao gồm vector neuron_instructions, vector csram, con trỏ đến scheduler, router và neuron block, và con trỏ đến core cha.
+- Phương thức activeConnectionIndices(): Phương thức này trả về các chỉ số của các kết nối hoạt động, nơi có cả điểm nhấn và kết nối.
+- Biến spikes: Biến này là một vector của các giá trị boolean, biểu diễn trạng thái hoạt động của các axon trong neuron controller.H
