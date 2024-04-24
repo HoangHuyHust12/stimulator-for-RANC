@@ -97,3 +97,34 @@ Tệp "csramrow.h" định nghĩa lớp CSRAMRow, đại diện cho một hàng 
 - Constructor này khởi tạo một đối tượng CSRAMRow với các giá trị được truyền vào từ các tham số.
 ### d Phương thức to_string(bool hex): 
 - Phương thức này trả về một chuỗi biểu diễn các thuộc tính của CSRAMRow. Nếu tham số hex là true, nó sẽ trả về chuỗi dưới dạng hex.
+
+### 9 decode.hpp
+Code này là một tập hợp các hàm được sử dụng để giải mã dữ liệu đầu vào từ tệp JSON vào các đối tượng và cấu trúc dữ liệu khác nhau trong chương trình. Dưới đây là tóm tắt về mỗi chức năng chính:
+
+- InputDecodingException: Lớp ngoại lệ được sử dụng để xử lý các ngoại lệ phát sinh trong quá trình giải mã dữ liệu đầu vào.
+- parsePacketDestinationCore: Phân tích các giá trị liên quan đến điểm đến của gói tin trong một vòng lặp.
+- parsePacketDestinationAxon: Phân tích giá trị liên quan đến axon đích của gói tin.
+- parsePacketDestinationTick: Phân tích giá trị liên quan đến điểm đến tick của gói tin.
+- parseInputPackets: Phân tích các gói tin đầu vào từ tệp JSON, trả về một vector chứa các vector gói tin cho mỗi tick.
+- parseCoreCoordinates: Phân tích tọa độ của lõi từ dữ liệu JSON.
+- parseCoreNeurons: Phân tích các thông số liên quan đến neurons của lõi từ dữ liệu JSON.
+- parseCoreConnections: Xác nhận rằng các kết nối trong lõi được thiết lập đúng.
+- parseCoreNeuronInstructions: Phân tích các hướng dẫn của neurons trong lõi từ dữ liệu JSON.
+- parseNeuronConnections: Phân tích các kết nối của neurons từ dữ liệu JSON.
+- parseNeuronWeights: Phân tích trọng số của neurons từ dữ liệu JSON.
+- parseNeuronDestinationCore: Phân tích điểm đến core của neurons từ dữ liệu JSON.
+- parseNeuronDestinationAxon: Phân tích axon đích của neurons từ dữ liệu JSON.
+- parseNeuronDestinationAxonOutputBus: Phân tích axon đích của neurons khi nó kết nối với output bus.
+- parseNeuronDestinationTick: Phân tích điểm đến tick của neurons từ dữ liệu JSON.
+- parseNeuronParameter: Phân tích các tham số khác của neurons từ dữ liệu JSON.
+- parseOutputBus: Phân tích dữ liệu đầu vào của output bus từ tệp JSON.
+- parseCores: Phân tích dữ liệu đầu vào của các lõi từ tệp JSON và xây dựng các đối tượng lõi và kết nối chúng với nhau.
+
+## 10 main.cpp
+Code này là chương trình chính của mô phỏng RANC (Reconfigurable Asynchronous Neuromorphic Computing). Dưới đây là tóm tắt về cách chương trình hoạt động:
+
+- Xác định các tham số dòng lệnh: Chương trình sử dụng thư viện cxxopts để xác định các tham số dòng lệnh như tên tệp đầu vào, tên tệp đầu ra, tệp cấu hình, số lượng ticks cần chạy, tên tệp trace và tần suất báo cáo.
+- Xác định tệp cấu hình: Dữ liệu cấu hình được đọc từ tệp JSON được chỉ định và lưu trữ trong một biến toàn cục.
+- Xác định tệp đầu vào và đầu ra: Tên tệp đầu vào và đầu ra được xác định từ các tham số dòng lệnh. Nếu không có tệp nào được chỉ định, chương trình sẽ kết thúc và in ra hướng dẫn sử dụng.
+- Khởi tạo các thành phần: Dữ liệu đầu vào từ tệp JSON được giải mã bằng cách sử dụng các hàm trong module decode.hpp để tạo ra các đối tượng và cấu trúc dữ liệu cần thiết cho mô phỏng.
+- Bắt đầu mô phỏng: Các đối tượng được tạo ra từ dữ liệu đầu vào được sử dụng để khởi tạo một lưới RANC. Sau đó, mô phỏng được bắt đầu với số lượng ticks được chỉ định và tần suất báo cáo.
