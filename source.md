@@ -65,3 +65,35 @@ Tệp "corecontroller.h" định nghĩa lớp CoreController, một thành phầ
 - Các biến thành viên: Các biến thành viên của CoreController bao gồm vector neuron_instructions, vector csram, con trỏ đến scheduler, router và neuron block, và con trỏ đến core cha.
 - Phương thức activeConnectionIndices(): Phương thức này trả về các chỉ số của các kết nối hoạt động, nơi có cả điểm nhấn và kết nối.
 - Biến spikes: Biến này là một vector của các giá trị boolean, biểu diễn trạng thái hoạt động của các axon trong neuron controller.H
+
+## 7 csramrow.cpp
+Tệp "csramrow.cpp" định nghĩa hai constructor cho lớp CSRAMRow và một phương thức to_string(). Dưới đây là tóm tắt hoạt động của mã:
+
+- Constructor mặc định (CSRAMRow()): Constructor này khởi tạo một đối tượng CSRAMRow với các giá trị mặc định được đọc từ các tham số trong file cấu hình.
+- Constructor có tham số (CSRAMRow(std::vector<bool> connections, int current_potential, int reset_potential, int leak, int positive_threshold, int negative_threshold, std::vector<int> weights, int dx, int dy, int destination_tick, int destination_axon, int reset_mode)): Constructor này khởi tạo một đối tượng CSRAMRow với các giá trị được truyền vào từ các tham số.
+- Phương thức to_string(bool hex): Phương thức này trả về một chuỗi biểu diễn các thuộc tính của CSRAMRow, bao gồm kết nối, tiềm năng hiện tại, tiềm năng reset, sự rò rỉ, ngưỡng dương, ngưỡng âm, trọng số, dx, dy, axon đích, tick đích và chế độ reset. Nếu tham số hex là true, nó sẽ trả về chuỗi dưới dạng hex, nhưng phương thức này hiện chỉ hỗ trợ trường hợp không hex.
+
+## 8 csramrow.h
+Tệp "csramrow.h" định nghĩa lớp CSRAMRow, đại diện cho một hàng CSRAM tương ứng với một neuron. Dưới đây là tóm tắt hoạt động của mã:
+
+### a Lớp CSRAMRow:
+- Lớp này lưu trữ tất cả các thông số cho một neuron trong mạng nơ-ron.
+- Các thuộc tính bao gồm:
+
+  - connections: Một vector bool lưu trữ trạng thái kết nối của các axon đến neuron này.
+  - current_potential: Tiềm năng hiện tại của neuron.
+  - reset_potential: Giá trị tiềm năng để reset neuron.
+  - leak: Giá trị rò rỉ tiềm năng của neuron.
+  - positive_threshold: Ngưỡng dương để kích hoạt neuron.
+  - negative_threshold: Ngưỡng âm để kích hoạt neuron.
+  - weights: Một vector chứa trọng số của các kết nối axon đến neuron này.
+  - dx, dy: Độ lệch tọa độ của axon đến neuron đích.
+  - destination_tick: Thời điểm (tick) mà gói tin đi đến.
+  - destination_axon: Axon đích mà gói tin sẽ được gửi đến.
+  - reset_mode: Chế độ reset cho neuron.
+### b Constructor mặc định (CSRAMRow()): 
+- Constructor này khởi tạo một đối tượng CSRAMRow với các giá trị mặc định.
+### c Constructor có tham số (CSRAMRow(std::vector<bool> connections, int current_potential, int reset_potential, int leak, int positive_threshold, int negative_threshold, std::vector<int> weights, int dx, int dy, int -- destination_tick, int destination_axon, int reset_mode)): 
+- Constructor này khởi tạo một đối tượng CSRAMRow với các giá trị được truyền vào từ các tham số.
+### d Phương thức to_string(bool hex): 
+- Phương thức này trả về một chuỗi biểu diễn các thuộc tính của CSRAMRow. Nếu tham số hex là true, nó sẽ trả về chuỗi dưới dạng hex.
