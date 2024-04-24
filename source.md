@@ -1,1 +1,46 @@
-## 1 Config.hpp
+## 1 component.h
+File này định nghĩa một lớp trừu tượng tên là "Component" và định nghĩa một số phương thức ảo mà mọi lớp con của nó cần phải triển khai. Cụ thể:
+
+- Phương thức prepare(): Được gọi trước khi các tín hiệu đầu vào được gửi vào mạng: có thể được sử dụng để chuẩn bị thành phần để nhận các tín hiệu trước khi thực thi.
+- Phương thức run(): Được gọi sau khi các tín hiệu đầu vào được gửi vào mạng: thực hiện tất cả các xử lý cần thiết cho tick hiện tại.
+- Phương thức receivePacket(Packet packet): Được gọi mỗi khi bộ định tuyến nhận một gói tin dành cho thành phần này.
+Ngoài ra, file cũng khai báo một số biến dùng chung như con trỏ tới một đối tượng Router, và các biến x và y để định vị vị trí của thành phần trong mạng.
+
+## 2 Config.hpp
+- Khai báo thư viện và enum: Đầu tiên, file này bắt đầu với các khai báo thư viện và định nghĩa các enum. Các enum được sử dụng để định nghĩa các tùy chọn và hằng số cho cấu hình.
+- Lớp ConfigDecodingException: Đây là một lớp ngoại lệ được sử dụng để xử lý các ngoại lệ phát sinh trong quá trình giải mã cấu hình từ tệp JSON.
+- Lớp Config: Lớp này chứa các phương thức và biến tĩnh để xử lý cấu hình. Các phương thức bao gồm:
+- - setParameters(): Được sử dụng để đọc cấu hình từ tệp JSON và lưu trữ vào một biến static của lớp.
+- - validateParameters(): Kiểm tra tính hợp lệ của cấu hình bằng cách kiểm tra giới hạn và định dạng của các tham số cấu hình.
+- - Các phương thức khác để kiểm tra và truy xuất cấu hình đã đọc.
+
+Tóm lại, file "config.hpp" đóng vai trò quan trọng trong việc quản lý cấu hình cho ứng dụng và cung cấp các công cụ để đọc, kiểm tra và truy xuất các thông tin cấu hình từ tệp JSON.
+
+## 3 core.cpp
+Đoạn mã trong file "core.cpp" định nghĩa các phương thức của lớp Core, đại diện cho một nhân tố cơ bản trong hệ thống xử lý cấu trúc mạng. Dưới đây là tóm tắt hoạt động của các phương thức trong đoạn mã:
+
+- Constructor:
+Có các constructor khác nhau cho việc tạo đối tượng Core. Mỗi constructor khởi tạo các thành viên của lớp Core bằng cách tạo ra các đối tượng Router, Scheduler, NeuronBlock, và CoreController.
+Các tham số truyền vào constructor cho phép xác định các core lân cận, bộ nhớ CSRAM, neuron_instructions, vị trí của core, loại và giá trị reset của neuron.
+
+- Phương thức to_string():
+Trả về một chuỗi mô tả vị trí của core trong lưới.
+- Phương thức prepare():
+Gọi phương thức updateCurrentWord() của Scheduler để cập nhật từ hiện tại.
+- Phương thức run():
+Gọi phương thức run() của CoreController để thực thi logic xử lý của core.
+- Phương thức receivePacket(Packet packet):
+Gọi phương thức receivePacket(Packet packet) của Scheduler để xử lý gói tin được nhận.
+
+Tóm lại, đoạn mã này thực hiện việc khởi tạo và quản lý các thành phần chính của một core trong hệ thống xử lý cấu trúc lưới, bao gồm định nghĩa các phương thức để chuẩn bị, thực thi và xử lý các gói tin.
+
+## 4 core.h
+Đoạn mã trong file "core.h" định nghĩa lớp Core, đại diện cho một nhân tố cơ bản trong hệ thống xử lý cấu trúc lưới. Dưới đây là tóm tắt hoạt động của mã:
+
+- Định nghĩa lớp Core: Lớp Core được kế thừa từ lớp Component, đảm bảo rằng các đối tượng Core có các phương thức cơ bản như prepare(), run(), và receivePacket(Packet packet).
+- Các constructors: Có nhiều phiên bản constructor cho phép tạo đối tượng Core với các cấu hình khác nhau. Các tham số của các constructors này cho phép xác định các core lân cận, bộ nhớ CSRAM, hướng dẫn neuron, vị trí của core, loại và giá trị reset của neuron.
+- Phương thức prepare(): Được kế thừa từ lớp Component, phương thức này được gọi để chuẩn bị core trước khi chạy.
+- Phương thức run(): Được kế thừa từ lớp Component, phương thức này chạy logic xử lý của core.
+- Phương thức receivePacket(Packet packet): Được kế thừa từ lớp Component, phương thức này được gọi khi core nhận được một gói tin.
+- Phương thức to_string(): Trả về một chuỗi mô tả vị trí của core trong lưới.
+- Các thành phần của Core: Scheduler, NeuronBlock, và CoreController là các thành phần chính của một core trong hệ thống xử lý cấu trúc lưới.
